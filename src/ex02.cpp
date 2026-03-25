@@ -23,7 +23,7 @@ size_t quick_sort_partition(std::vector<int> & vec, size_t left, size_t right) {
 }
 
 void quick_sort(std::vector<int> & vec, size_t const left, size_t const right) {
-    // Condition d'arrêt de la récursivité
+    // Condition d'arrêt de la récursivité : si le tableau a une taille nulle
     if (left >= right) {
         return;
     }
