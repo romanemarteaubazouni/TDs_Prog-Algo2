@@ -7,18 +7,22 @@ bool is_sorted(std::vector<int> const& vec) {
 }
 
 size_t quick_sort_partition(std::vector<int> & vec, size_t left, size_t right) {
-    // Le principe du code est expliqué dans le cours
+    // Cet algorithme se base sur le principe du tri rapide, dont chaque étape est détaillée dans le cours
+
+    // Initialisation de notre pivôt (ici, le dernier du tableau)
     int pivot {vec[right]};
+    // Initialisation de notre variable de position : elle stocke la place actuelle que devra prendre le pivot
     size_t current {left};
 
-    // On trouve les élements plus petits que notre pivot
+    // Les élements plus petits que le pivot sont placés à sa gauche
     for (size_t i{left}; i < right; i++) {
         if (vec[i] <= pivot) {
             std::swap(vec[i], vec[current]);
+            // Avancé de la place finale du pivot
             current++;
         }
     }
-    std::swap(vec[right], vec[current]); // On place le pivot au milieu du tableau
+    std::swap(vec[right], vec[current]);
     return current;
 }
 
@@ -30,12 +34,13 @@ void quick_sort(std::vector<int> & vec, size_t const left, size_t const right) {
     // On trouve l'indice de la partition
     size_t place_of_pivot {quick_sort_partition(vec, left, right)};
 
-    // On trie récursivement le tableau de gauche
-    if (place_of_pivot != 0) {
+    // Tri récursif du tableau à gauche du pivot
+    if (place_of_pivot != 0) { // Condition pour faire l'opération "place_of_pivot - 1"
         quick_sort(vec, left, place_of_pivot - 1);
     }
 
-    quick_sort(vec, place_of_pivot + 1, right); // On trie récursivement le tableau de droite
+    // Tri récursif du tableau à droite du pivot
+    quick_sort(vec, place_of_pivot + 1, right);
 }
 
 void quick_sort(std::vector<int> & vec) {

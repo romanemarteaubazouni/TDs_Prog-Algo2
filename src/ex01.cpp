@@ -7,20 +7,23 @@ bool is_sorted(std::vector<int> const& vec) {
 }
 
 void selection_sort(std::vector<int> & vec) {
+    // Initialisation des variables contenant le minimum actuel de chaque tour
     int minimum {};
     int place_in_vec {};
+
     for (size_t i{}; i < vec.size(); i++)
     {
         minimum = vec[i];
         place_in_vec = i;
         for (size_t j{i + 1}; j < vec.size(); j++)
         {
-            if (vec[j] < minimum)
-            {
+            // Comparaison au minimum actuel
+            if (vec[j] < minimum) {
                 minimum = vec[j];
                 place_in_vec = j;
             }
         }
+        // Le minimum est placé
         std::swap(vec[i], vec[place_in_vec]);
     }
 }

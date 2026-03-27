@@ -2,7 +2,12 @@
 #include <vector>
 #include <algorithm>
 
+bool is_sorted(std::vector<int> const& vec) {
+    return std::is_sorted(vec.begin(), vec.end());
+}
+
 int search(std::vector<int> &vec, int elem) {
+    // Bornes du tableau où la recherche s'effectue
     int left {0};
     int right {static_cast<int>(vec.size() - 1)};
 
@@ -10,13 +15,13 @@ int search(std::vector<int> &vec, int elem) {
         int middle {(left + right) / 2};
         if (vec[middle] == elem)
         {
-            return middle + 1; // +1 car les indices commencent à 0 pour l'ordinateur, mais est plus parlant en parant de 1 pour l'humain
+            return middle + 1; // Les indices commencent à 0 pour l'ordinateur, mais sont plus parlant en partant de 1 pour l'homme
         }
-        // Si l'élement est grand, on se place à droite
+        // Si l'élement est grand, on se place à droite du milieu
         else if (vec[middle] < elem) {
             left = middle + 1;
         }
-        // Si l'élement est grand, on se place à gauche
+        // Si l'élement est petit, on se place à gauche du milieu
         else {
             right = middle - 1;
         }
@@ -40,6 +45,15 @@ int main() {
     std::cout << "Quel chiffre cherchez-vous ? ";
     std::cin >> elem;
 
-    std::cout << "Voici élement est à la " << search(array, elem) << "eme place du tableau.\n";
-        return 0;
+    if (!is_sorted(array)) {
+        std::cout << "Votre tableau n'est pas trié.\n";
+    }
+
+    else if (search(array, elem) == -1) {
+        std::cout << "Votre élement n'est pas dans le tableau (indice " << search(array, elem) << ").\n";
+    }
+    else {
+    std::cout << "Votre élement est à la " << search(array, elem) << "eme place du tableau.\n";
+    }
+    return 0;
 }
