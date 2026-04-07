@@ -72,6 +72,19 @@ Direction turn_right(Direction const& d) {
     }
 }
 
+// Avec une map, même si outil lourd pour cette énumération :
+// #include <unordered_map>
+// Direction turn_right(Direction const& d) {
+//     static const std::unordered_map<Direction, Direction> direction = {
+//         {Direction::Up, Direction::Right},
+//         {Direction::Right, Direction::Down},
+//         {Direction::Down, Direction::Left},
+//         {Direction::Left, Direction::Up}
+//     };
+//     auto new_d = direction.find(d);
+//     return new_d->second;
+// }
+
 // Question 2
 struct Input_Map {
     std::map<Position, char> map;
