@@ -73,7 +73,15 @@ Direction turn_right(Direction const& d) {
 }
 
 // Question 2
+struct Input_Map {
+    std::map<Position, char> map;
+    Position pos_init;
+    Direction dir_init;
+};
 
+Input_Map read_input (std::istream& input_stream) {
+    
+}
 
 int main() {
     return 0;
