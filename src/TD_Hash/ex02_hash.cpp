@@ -125,7 +125,12 @@ namespace std {
     template <>
     struct hash<Position> {
         std::size_t operator()(const Position& pos) const {
-            return /* */;
+            // On cherhce à combiner les hash de chaque coordonnée
+            size_t hash_x = std::hash<int>()(pos.x);
+            size_t hash_y = std::hash<int>()(pos.y);
+            // Opération XOR (eXclusive OR) + multiplication par nombre premier de hash_y
+            // Le hash sera unique et différent pour (10, 20) et (20, 10) par exemple
+            return hash_x ^ (hash_y * 3);
         }
     };
 }
