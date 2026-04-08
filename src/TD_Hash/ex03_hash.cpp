@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 
 enum class CardKind {
     Heart,
@@ -41,4 +42,22 @@ struct Card {
 // Question 1
 bool operator==(Card const& a, Card const& b) {
     return a.value == b.value && a.kind == b.kind;
+}
+
+namespace std {
+    template<>
+    struct hash<Card> {
+        size_t operator()(Card& card) const {
+            return card.hash();
+        }
+    };
+}
+
+std::vector<Card> get_cards(size_t const size) {
+    std::vector<Card> cards {};
+    cards.reserve(size);
+    for (size_t i {0}; i < size; ++i) {
+        cards.push_back({static_cast<CardKind>(rand() % 4), static_cast<CardValue>(rand() % 13)});
+    }
+    return cards;
 }
