@@ -3,6 +3,8 @@
 #include <map>
 #include <unordered_set>
 #include <algorithm>
+#include <istream>
+#include <fstream>
 // Question 1.1
 enum class Direction {
     Up,
@@ -106,19 +108,19 @@ Map read_input (std::istream& input_stream) {
                 map.obstacles.push_back({nb_line, i});
             }
             else if (line[i] == '^') {
-                map.pos_init = {nb_line, i};
+                map.pos_init = {i, nb_line};
                 map.dir_init = Direction::Up;
             }
             else if (line[i] == '<') {
-                map.pos_init = {nb_line, i};
+                map.pos_init = {i, nb_line};
                 map.dir_init = Direction::Left;
             }
             else if (line[i] == '>') {
-                map.pos_init = {nb_line, i};
+                map.pos_init = {i, nb_line};
                 map.dir_init = Direction::Right;
             }
             else if (line[i] == 'v') {
-                map.pos_init = {nb_line, i};
+                map.pos_init = {i, nb_line};
                 map.dir_init = Direction::Down;
             }
         }
@@ -164,8 +166,8 @@ WalkResult guard_walk(Map const& map) {
         // On avance suivant la direction actuelle
         next_position += current_dir;
         // On vérifie si on ne sort pas du cadre avec ce mouvement
-        if (current_pos.x >= 0 || current_pos.x < map.width
-            || current_pos.y >= 0 || current_pos.y < map.height) {
+        if (next_position.x < 0 || next_position.x >= map.width
+            || next_position.y < 0 || next_position.y >= map.height) {
             break;
         }
         // On vérifier si on n'est pas sur un obstacle en faisant ce déplacement
@@ -186,6 +188,11 @@ WalkResult guard_walk(Map const& map) {
 }
 
 int main() {
+    std::ifstream file("C:/Users/roman/Desktop/Mes dossiers/IMAC/Prog et Algo/TDs_Prog-Algo2/src/TD_Hash/first_patrol.txt");
+    Map input_structure = read_input(file);
+    WalkResult walk = guard_walk(input_structure);
     
+    std::cout << "Le garde a parcouru " << walk.steps_taken << " cases.\n";
+    std::cout << "Il a fini sur la case " << walk.final_position << std::endl;
     return 0;
 }
