@@ -27,7 +27,6 @@ Position operator+=(Position const& a, Position const& b) {
     return c;
 }
 // Question 1.6
-// Comment fonctionner avec une map ?
 Position operator+(Position const& p, Direction const& d) {
     if (d == Direction::Up) {
         return {(p.x, p.y - 1)};
@@ -71,7 +70,6 @@ Direction turn_right(Direction const& d) {
         return Direction::Up;
     }
 }
-
 // Avec une map, même si outil lourd pour cette énumération :
 // #include <unordered_map>
 // Direction turn_right(Direction const& d) {
@@ -86,14 +84,50 @@ Direction turn_right(Direction const& d) {
 // }
 
 // Question 2
-struct Input_Map {
-    std::map<Position, char> map;
+struct Map {
     Position pos_init;
     Direction dir_init;
+    std::vector<Position> obstacles;
 };
 
-Input_Map read_input (std::istream& input_stream) {
-    
+Map read_input (std::istream& input_stream) {
+    Map map {};
+    int nb_line {};
+    for (std::string line{}; std::getline(input_stream, line, '\n') and line != "";) {
+        for (int i {}; i < line.size(); i++) {
+            if (line[i] == '#') {
+                map.obstacles.push_back({nb_line, i});
+            }
+            else if (line[i] == '^') {
+                map.pos_init = {nb_line, i};
+                map.dir_init = Direction::Up;
+            }
+            else if (line[i] == '<') {
+                map.pos_init = {nb_line, i};
+                map.dir_init = Direction::Left;
+            }
+            else if (line[i] == '>') {
+                map.pos_init = {nb_line, i};
+                map.dir_init = Direction::Right;
+            }
+            else if (line[i] == 'v') {
+                map.pos_init = {nb_line, i};
+                map.dir_init = Direction::Down;
+            }
+        }
+        nb_line++;
+    }
+    return map;
+}
+
+// Question 3
+namespace std {
+    template <>
+    struct hash<Position> {
+        std::size_t operator()(const Position& pos) const {
+            return /* */;
+        }
+    };
 }
 
 int main() {
