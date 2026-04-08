@@ -2,6 +2,7 @@
 #include <vector>
 #include <map>
 #include <unordered_set>
+#include <algorithm>
 // Question 1.1
 enum class Direction {
     Up,
@@ -153,14 +154,27 @@ WalkResult guard_walk(Map const& map) {
     // On ajoute la positon intiale au set
     movement.visited_positions.insert(current_pos);
 
-    while (current_pos /*pas sorti du cadre donc condition sur x et y*/) {
-        if (current_pos != map.obstacles) {
-            current_pos += map.dir_init;
-            movement.visited_positions.insert(current_pos);
-            movement.steps_taken++;
+    while (/*pas sorti du cadre donc condition sur x et y
+        Comment faire sans avoir la width et height de la map ??*/) {
+        // On copie la position actuelle
+        Position next_position = current_pos;
+        // On avance suivant la direction actuelle
+        next_position += current_dir;
+        // On vérifie si on ne sort pas du cadre avec ce mouvement
+        if (/*Conditions à trouver*/) {
+            break;
+        }
+        // On vérifier si on n'est pas sur un obstacle
+        auto iter = std::find(map.obstacles.begin(), map.obstacles.end(), next_position);
+        if (iter != map.obstacles.end()) {
+            // Si on a trouvé un obstacle, on tourne à droite
+            turn_right(current_dir);
         }
         else {
-            turn_right(map.dir_init);
+            // On avance
+            current_pos = next_position;
+            movement.visited_positions.insert(current_pos);
+            movement.steps_taken++;
         }
     }
     movement.final_position = current_pos;
