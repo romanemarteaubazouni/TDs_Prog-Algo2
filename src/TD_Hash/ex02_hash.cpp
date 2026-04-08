@@ -28,34 +28,37 @@ Position operator+=(Position const& a, Position const& b) {
     return c;
 }
 // Question 1.6
-Position operator+(Position const& p, Direction const& d) {
+Position operator+(Position & p, Direction const& d) {
     if (d == Direction::Up) {
-        return {(p.x, p.y - 1)};
+        p.y -= 1;
     }
     if (d == Direction::Down) {
-        return {(p.x, p.y + 1)};
+        p.y += 1;
     }
     if (d == Direction::Right) {
-        return {(p.x + 1, p.y)};
+        p.x += 1;
     }
     if (d == Direction::Left) {
-        return {(p.x - 1, p.y)};
+        p.x -= 1;
     }
+    return p;
 }
-Position operator+=(Position const& p, Direction const& d) {
+Position operator+=(Position & p, Direction const& d) {
     if (d == Direction::Up) {
-        return {(p.x, p.y - 1)};
+        p.y -= 1;
     }
     if (d == Direction::Down) {
-        return {(p.x, p.y + 1)};
+        p.y += 1;
     }
     if (d == Direction::Right) {
-        return {(p.x + 1, p.y)};
+        p.x += 1;
     }
     if (d == Direction::Left) {
-        return {(p.x - 1, p.y)};
+        p.x -= 1;
     }
+    return p;
 }
+
 // Question 1.7
 Direction turn_right(Direction const& d) {
     if (d == Direction::Up) {
@@ -144,21 +147,23 @@ struct WalkResult {
 // Question 3.2
 // Idée du code
 WalkResult guard_walk(Map const& map) {
-    Position current_position {map.pos_init};
+    Position current_pos {map.pos_init};
+    Direction current_dir {map.dir_init};
     WalkResult movement {};
     // On ajoute la positon intiale au set
-    movement.visited_positions.insert(current_position);
-    while (current_position /*pas sorti du cadre donc condition sur x et y*/) {
-        if (current_position != map.obstacles) {
-            current_position += map.dir_init;
-            movement.visited_positions.insert(current_position);
+    movement.visited_positions.insert(current_pos);
+
+    while (current_pos /*pas sorti du cadre donc condition sur x et y*/) {
+        if (current_pos != map.obstacles) {
+            current_pos += map.dir_init;
+            movement.visited_positions.insert(current_pos);
             movement.steps_taken++;
         }
         else {
             turn_right(map.dir_init);
         }
     }
-    movement.final_position = current_position;
+    movement.final_position = current_pos;
     return movement;
 }
 
