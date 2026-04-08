@@ -27,7 +27,7 @@ std::ostream& operator<<(std::ostream& os, Position const& p) {
 }
 // Question 1.5
 Position operator+=(Position const& a, Position const& b) {
-    Position c {(a.x + b.x, a.y + b.y)};
+    Position c {a.x + b.x, a.y + b.y};
     return c;
 }
 // Question 1.6
@@ -105,7 +105,7 @@ Map read_input (std::istream& input_stream) {
     for (std::string line{}; std::getline(input_stream, line, '\n') and line != "";) {
         for (int i {}; i < line.size(); i++) {
             if (line[i] == '#') {
-                map.obstacles.push_back({nb_line, i});
+                map.obstacles.push_back({i, nb_line});
             }
             else if (line[i] == '^') {
                 map.pos_init = {i, nb_line};
@@ -166,10 +166,10 @@ WalkResult guard_walk(Map const& map) {
         // On avance suivant la direction actuelle
         next_position += current_dir;
         // On vérifie si on ne sort pas du cadre avec ce mouvement
-        // if (next_position.x < 0 || next_position.x >= map.width
-        //     || next_position.y < 0 || next_position.y >= map.height) {
-        //     break;
-        // }
+        if (next_position.x < 0 || next_position.x >= map.width
+            || next_position.y < 0 || next_position.y >= map.height) {
+            break;
+        }
         // On vérifier si on n'est pas sur un obstacle en faisant ce déplacement
         auto iter = std::find(map.obstacles.begin(), map.obstacles.end(), next_position);
         if (iter != map.obstacles.end()) {
@@ -186,7 +186,6 @@ WalkResult guard_walk(Map const& map) {
     movement.final_position = current_pos;
     return movement;
 }
-/*Pb d'obstacles : x et y inversés*/
 int main() {
     std::ifstream file("C:/Users/roman/Desktop/Mes dossiers/IMAC/Prog et Algo/TDs_Prog-Algo2/src/TD_Hash/first_patrol.txt");
     Map input_structure = read_input(file);
