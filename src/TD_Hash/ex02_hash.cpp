@@ -166,15 +166,15 @@ WalkResult guard_walk(Map const& map) {
         // On avance suivant la direction actuelle
         next_position += current_dir;
         // On vérifie si on ne sort pas du cadre avec ce mouvement
-        if (next_position.x < 0 || next_position.x >= map.width
-            || next_position.y < 0 || next_position.y >= map.height) {
-            break;
-        }
+        // if (next_position.x < 0 || next_position.x >= map.width
+        //     || next_position.y < 0 || next_position.y >= map.height) {
+        //     break;
+        // }
         // On vérifier si on n'est pas sur un obstacle en faisant ce déplacement
         auto iter = std::find(map.obstacles.begin(), map.obstacles.end(), next_position);
         if (iter != map.obstacles.end()) {
             // Si on a trouvé un obstacle, on tourne à droite
-            turn_right(current_dir);
+            current_dir = turn_right(current_dir);
         }
         else {
             // On avance
@@ -186,7 +186,7 @@ WalkResult guard_walk(Map const& map) {
     movement.final_position = current_pos;
     return movement;
 }
-
+/*Pb d'obstacles : x et y inversés*/
 int main() {
     std::ifstream file("C:/Users/roman/Desktop/Mes dossiers/IMAC/Prog et Algo/TDs_Prog-Algo2/src/TD_Hash/first_patrol.txt");
     Map input_structure = read_input(file);
