@@ -93,6 +93,8 @@ struct Map {
     Position pos_init;
     Direction dir_init;
     std::vector<Position> obstacles;
+    int width;
+    int height;
 };
 
 Map read_input (std::istream& input_stream) {
@@ -121,7 +123,9 @@ Map read_input (std::istream& input_stream) {
             }
         }
         nb_line++;
+        map.width = line.size();
     }
+    map.height = nb_line;
     return map;
 }
 
@@ -146,25 +150,25 @@ struct WalkResult {
     std::unordered_set<Position> visited_positions;
 };
 // Question 3.2
-// Idée du code
 WalkResult guard_walk(Map const& map) {
     Position current_pos {map.pos_init};
     Direction current_dir {map.dir_init};
     WalkResult movement {};
     // On ajoute la positon intiale au set
     movement.visited_positions.insert(current_pos);
-
-    while (/*pas sorti du cadre donc condition sur x et y
-        Comment faire sans avoir la width et height de la map ??*/) {
+    // Tant qu'on ne sort pas de la carte
+    while (current_pos.x >= 0 && current_pos.x < map.width
+            && current_pos.y >= 0 && current_pos.y < map.height) {
         // On copie la position actuelle
         Position next_position = current_pos;
         // On avance suivant la direction actuelle
         next_position += current_dir;
         // On vérifie si on ne sort pas du cadre avec ce mouvement
-        if (/*Conditions à trouver*/) {
+        if (current_pos.x >= 0 || current_pos.x < map.width
+            || current_pos.y >= 0 || current_pos.y < map.height) {
             break;
         }
-        // On vérifier si on n'est pas sur un obstacle
+        // On vérifier si on n'est pas sur un obstacle en faisant ce déplacement
         auto iter = std::find(map.obstacles.begin(), map.obstacles.end(), next_position);
         if (iter != map.obstacles.end()) {
             // Si on a trouvé un obstacle, on tourne à droite
@@ -182,5 +186,6 @@ WalkResult guard_walk(Map const& map) {
 }
 
 int main() {
+    
     return 0;
 }
