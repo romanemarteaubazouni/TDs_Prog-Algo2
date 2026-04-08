@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <map>
+#include <unordered_set>
 // Question 1.1
 enum class Direction {
     Up,
@@ -120,7 +121,7 @@ Map read_input (std::istream& input_stream) {
     return map;
 }
 
-// Question 3
+// Question 3.1
 namespace std {
     template <>
     struct hash<Position> {
@@ -133,6 +134,32 @@ namespace std {
             return hash_x ^ (hash_y * 3);
         }
     };
+}
+
+struct WalkResult {
+    Position final_position;
+    size_t steps_taken;
+    std::unordered_set<Position> visited_positions;
+};
+// Question 3.2
+// Idée du code
+WalkResult guard_walk(Map const& map) {
+    Position current_position {map.pos_init};
+    WalkResult movement {};
+    // On ajoute la positon intiale au set
+    movement.visited_positions.insert(current_position);
+    while (current_position /*pas sorti du cadre donc condition sur x et y*/) {
+        if (current_position != map.obstacles) {
+            current_position += map.dir_init;
+            movement.visited_positions.insert(current_position);
+            movement.steps_taken++;
+        }
+        else {
+            turn_right(map.dir_init);
+        }
+    }
+    movement.final_position = current_position;
+    return movement;
 }
 
 int main() {
