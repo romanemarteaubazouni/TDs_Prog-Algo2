@@ -187,11 +187,11 @@ WalkResult guard_walk(Map const& map) {
     return movement;
 }
 int main() {
-    std::ifstream file("C:/Users/roman/Desktop/Mes dossiers/IMAC/Prog et Algo/TDs_Prog-Algo2/src/TD_Hash/first_patrol.txt");
+    std::ifstream file("C:/Users/roman/Desktop/Mes dossiers/IMAC/Prog et Algo/TDs_Prog-Algo2/src/TD_Hash/input_guard_patrol.txt");
     Map input_structure = read_input(file);
     WalkResult walk = guard_walk(input_structure);
-    
-    std::cout << "Le garde a parcouru " << walk.steps_taken << " cases.\n";
+    // Affichage de la taille du tableau visited_positions et non steps pour éviter les doublons
+    std::cout << "Le garde a parcouru " << walk.visited_positions.size() << " cases.\n";
     std::cout << "Il a fini sur la case " << walk.final_position << std::endl;
     return 0;
 }
