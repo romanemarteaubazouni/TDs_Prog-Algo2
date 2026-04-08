@@ -1,5 +1,7 @@
 #include <iostream>
 #include <vector>
+#include <map>
+#include <unordered_map>
 
 enum class CardKind {
     Heart,
@@ -60,4 +62,10 @@ std::vector<Card> get_cards(size_t const size) {
         cards.push_back({static_cast<CardKind>(rand() % 4), static_cast<CardValue>(rand() % 13)});
     }
     return cards;
+}
+
+int main() {
+    get_cards(100);
+    std::unordered_map<Card, int> cards {};
+    return 0;
 }
