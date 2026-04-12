@@ -82,16 +82,16 @@ std::string card_name(Card const& card) {
     name += 'K';
     }
 
-    name += " of ";
+    name += " de ";
 
     if (card.kind == CardKind::Heart) {
-    name += "Heart";
+    name += "Coeur";
     }else if (card.kind == CardKind::Diamond) {
-    name += "Diamond";
+    name += "Carreaux";
     }else if (card.kind == CardKind::Club) {
-    name += "Club";
+    name += "Trefle";
     }else if (card.kind == CardKind::Spade) {
-    name += "Spade";
+    name += "Pique";
     }
     return name;
 }
